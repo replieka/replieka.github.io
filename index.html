@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replieka • Analyse sport</title>
+<meta name="description" content="Les chiffres derrière les matchs. Analyse foot et tennis, chaque jour.">
+<meta property="og:title" content="Replieka • Analyse sport">
+<meta property="og:description" content="Les chiffres derrière les matchs. Analyse foot et tennis, chaque jour.">
+<meta name="theme-color" content="#0C1A14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230C1A14'/%3E%3Ctext x='32' y='46' font-family='Arial Black,Arial' font-weight='900' font-size='40' text-anchor='middle' fill='%23FFC93C'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0C1A14;--bg2:#13261d;--ink:#F4F1E8;--mute:#8A9A90;--acc:#FFC93C;--line:rgba(244,241,232,.42)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg)}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);min-height:100vh;display:flex;justify-content:center;
+  background:radial-gradient(ellipse at 50% 30%,var(--bg2) 0%,var(--bg) 60%,#08120d 100%);overflow-x:hidden;position:relative}
+/* terrain tracé à la craie, en fond */
+.pitch{position:fixed;inset:0;pointer-events:none;opacity:.10;
+  background:
+   linear-gradient(var(--ink),var(--ink)) center 50%/100% 2px no-repeat,
+   radial-gradient(circle at 50% 50%,transparent 118px,var(--ink) 119px,var(--ink) 121px,transparent 122px);}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.08;mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main{position:relative;width:100%;max-width:440px;padding:56px 16px 40px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.logo{width:104px;height:104px;border-radius:50%;border:4px solid var(--ink);display:flex;align-items:center;justify-content:center;
+  font-family:Anton,Impact,sans-serif;font-size:62px;color:var(--acc);background:rgba(12,26,20,.7);
+  box-shadow:0 0 0 8px rgba(244,241,232,.06);animation:land .5s cubic-bezier(.16,1,.3,1) both}
+.tag{margin-top:22px;display:inline-block;background:var(--acc);color:var(--bg);font-weight:900;font-size:12px;letter-spacing:.12em;
+  text-transform:uppercase;padding:6px 12px;border-radius:5px}
+h1{margin-top:14px;font-family:Anton,Impact,sans-serif;font-weight:400;font-size:44px;line-height:1.02;text-transform:uppercase;letter-spacing:.01em}
+h1 span{color:var(--acc)}
+.sub{margin-top:12px;font-weight:500;font-size:16px;line-height:1.5;color:var(--ink);opacity:.82;max-width:320px}
+svg.chalk{margin-top:14px;width:180px;height:16px}
+svg.chalk path{fill:none;stroke:var(--acc);stroke-width:4;stroke-linecap:round;stroke-dasharray:200;stroke-dashoffset:200;animation:draw .7s .3s ease-out forwards}
+.links{margin-top:34px;width:100%;display:flex;flex-direction:column;gap:14px}
+.btn{position:relative;display:flex;align-items:center;gap:14px;width:100%;min-height:68px;padding:12px 18px;border-radius:18px;
+  text-decoration:none;color:var(--ink);border:3px solid var(--line);background:rgba(12,26,20,.55);
+  transition:transform .15s ease,border-color .15s ease,background .15s ease;animation:rise .5s cubic-bezier(.16,1,.3,1) both}
+.btn:hover{transform:translateY(-2px);border-color:var(--ink)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.btn .ic{flex:none;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(244,241,232,.08)}
+.btn .ic svg{width:24px;height:24px}
+.btn .tx{flex:1;text-align:left;display:flex;flex-direction:column;gap:2px}
+.btn b{font-weight:900;font-size:16px;letter-spacing:.02em;text-transform:uppercase}
+.btn small{font-weight:500;font-size:13px;color:var(--mute)}
+.btn .arr{flex:none;font-weight:900;font-size:20px;opacity:.6}
+.btn.main{background:var(--acc);border-color:var(--acc);color:var(--bg);min-height:78px;animation-delay:.08s}
+.btn.main small{color:rgba(12,26,20,.7)}
+.btn.main .ic{background:rgba(12,26,20,.12)}
+.btn.main:hover{border-color:var(--acc);background:#ffd45e}
+.btn:nth-child(2){animation-delay:.16s}
+.free{position:absolute;top:-11px;right:14px;background:var(--bg);color:var(--acc);border:2px solid var(--acc);font-weight:900;font-size:11px;
+  letter-spacing:.1em;padding:3px 8px;border-radius:20px;text-transform:uppercase}
+.how{margin-top:34px;width:100%;border-top:2px dashed rgba(244,241,232,.18);padding-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.how div{display:flex;flex-direction:column;align-items:center;gap:6px}
+.how strong{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:26px;color:var(--acc)}
+.how span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+footer{margin-top:30px;font-size:12px;color:var(--mute);font-weight:500}
+@keyframes land{from{opacity:0;transform:scale(1.25);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}svg.chalk path{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<div class="pitch"></div><div class="grain"></div>
+<main>
+  <div class="logo" aria-hidden="true">R</div>
+  <span class="tag">L'Ardoise</span>
+  <h1>Replieka <span>•</span> Analyse sport</h1>
+  <svg class="chalk" viewBox="0 0 180 16" aria-hidden="true"><path d="M4 10 C 50 4, 110 14, 176 6"/></svg>
+  <p class="sub">Les chiffres derrière les matchs. Foot et tennis, chaque jour.</p>
+
+  <nav class="links">
+    <a class="btn main" href="https://t.me/repliekaprono" target="_blank" rel="noopener">
+      <span class="free">Gratuit</span>
+      <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 19.8c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.4 1.1 11.9c-1.1-.3-1.1-1.1.2-1.6l19.2-7.4c.9-.3 1.7.2 1.4 1.4z"/></svg></span>
+      <span class="tx"><b>Rejoindre la communauté</b><small>Les analyses du jour, en direct</small></span>
+      <span class="arr">→</span>
+    </a>
+    <a class="btn" href="https://www.instagram.com/replieka/" target="_blank" rel="noopener">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></span>
+      <span class="tx"><b>Instagram</b><small>@replieka</small></span>
+      <span class="arr">→</span>
+    </a>
+  </nav>
+
+  <section class="how" aria-label="Notre méthode">
+    <div><strong>DATA</strong><span>Forme, absents</span></div>
+    <div><strong>0</strong><span>Émotion</span></div>
+    <div><strong>100%</strong><span>Transparent</span></div>
+  </section>
+
+  <footer>© Replieka · Analyse foot & tennis</footer>
+</main>
+</body>
+</html>
