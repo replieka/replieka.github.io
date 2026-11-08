@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Replieka · Résultats</title>
+<meta name="robots" content="noindex">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230C1A14'/%3E%3Ctext x='32' y='46' font-family='Arial Black,Arial' font-weight='900' font-size='40' text-anchor='middle' fill='%23FFC93C'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : appli mobile en une colonne (max 520px), vues Accueil / Paris / Calendrier / Stats, barre d'onglets en bas */
+:root{
+  --bg:#050816;--panel:#0E1529;--panel2:#141D36;--line:#1F2945;
+  --ink:#F2F4FA;--mute:#8A93AE;--acc:#7C80F4;
+  --g1:#00E8AA;--g2:#00C793;--ok:#2EE59D;--ko:#FF6B81;--blue:#5AAEFF;
+  --font:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--font);font-size:15px;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.app{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px 110px}
+.num{font-variant-numeric:tabular-nums}
+.pos{color:var(--ok)}.neg{color:var(--ko)}
+
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0 16px}
+header.top h1{font-size:19px;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;min-width:0}
+header.top h1 a{color:inherit;text-decoration:none}
+header.top h1 small{display:block;font-size:12px;font-weight:400;color:var(--mute)}
+.unit{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
+.unit button{padding:5px 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--mute)}
+.unit button[aria-pressed="true"]{background:var(--acc);color:#fff}
+
+.chart{background:linear-gradient(160deg,var(--g1),var(--g2));border-radius:18px;padding:16px 14px 14px;position:relative}
+.chart .head{display:flex;justify-content:space-between;align-items:flex-start;color:#04261C;margin-bottom:4px}
+.chart .head b{font-size:24px;font-weight:700;display:block;line-height:1.1}
+.chart .head span{font-size:12px;font-weight:500;opacity:.75}
+.chart svg{width:100%;height:auto;display:block}
+.chart .vide{position:absolute;inset:70px 20px 70px;display:grid;place-items:center;color:#fff;font-weight:500;text-align:center}
+.pills{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:6px}
+.pills button{border:2px solid rgba(255,255,255,.9);color:#fff;border-radius:999px;padding:7px 0;font-weight:500;font-size:14px}
+.pills button[aria-pressed="true"]{background:#fff;color:var(--g2)}
+.pills button.on-filtre{background:rgba(255,255,255,.22)}
+
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.btn{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 8px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:17px;font-weight:500}
+.btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 10px 20px;text-align:center;position:relative}
+.kpi span{display:block;color:var(--mute);font-size:15px;letter-spacing:.04em;text-transform:uppercase}
+.kpi b{display:block;font-size:34px;font-weight:700;margin-top:2px;line-height:1.15}
+.kpi b small{font-size:.55em;font-weight:600}
+.kpi .q{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;border:2px solid var(--mute);color:var(--mute);font-size:14px;font-weight:600;display:grid;place-items:center}
+.blue{color:var(--blue)}
+.note{color:var(--mute);font-size:12px;margin:14px 2px 0;line-height:1.5}
+
+/* listes */
+h2{font-size:18px;font-weight:600;margin:4px 0 12px}
+.pari{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin-bottom:10px}
+.pari .m{font-weight:600;font-size:14px;min-width:0}
+.pari .d{color:var(--mute);font-size:12px}
+.pari .p{font-size:13px;min-width:0}
+.pari .r{text-align:right;font-weight:600;font-size:14px}
+.chip{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;margin-left:6px}
+.chip.g{background:rgba(46,229,157,.15);color:var(--ok)}.chip.p{background:rgba(255,107,129,.15);color:var(--ko)}
+.chip.r{background:var(--line);color:var(--mute)}.chip.a{border:1px solid var(--line);color:var(--mute)}
+.jour{color:var(--mute);font-size:13px;font-weight:500;margin:16px 2px 8px;text-transform:capitalize}
+
+/* calendrier */
+.calnav{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.calnav button,.calnav .mois{border:1px solid var(--line);background:var(--panel);border-radius:10px;height:44px;display:grid;place-items:center}
+.calnav button.fl{width:44px;font-size:20px}
+.calnav .mois{flex:1;font-weight:500;font-size:16px;text-transform:capitalize}
+.calnav button.auj{padding:0 12px;font-weight:500}
+.cal{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 8px;display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .dow{text-align:center;color:var(--mute);font-size:14px;padding:6px 0 10px}
+.cal .c{aspect-ratio:1/1.15;max-width:100%;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;border:1px solid transparent}
+.cal .c.hors{color:#3A4466}
+.cal .c.auj{border-color:var(--acc)}
+.cal .c small{font-size:12px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.cal .c.v{background:rgba(46,229,157,.10);border-color:rgba(46,229,157,.35)}
+.cal .c.v small{color:var(--ok)}
+.cal .c.x{background:rgba(255,107,129,.10);border-color:rgba(255,107,129,.35)}
+.cal .c.x small{color:var(--ko)}
+.cal .c.n small,.cal .c.att small{color:var(--mute)}
+.cal button.c{cursor:pointer;font:inherit;color:inherit;font-size:15px}
+.cal button.c:hover{filter:brightness(1.35)}
+.sheet .corps{max-height:65vh;overflow-y:auto}
+.sheet .pari{background:var(--panel2)}
+.resume{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px;color:var(--mute);font-size:14px}
+.resume b{font-size:18px}
+.mbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.mbox span{color:var(--mute);font-size:15px}.mbox b{display:block;font-size:26px;font-weight:700;margin-top:2px}
+
+/* stats */
+.tab{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 12px;margin-bottom:14px;overflow-x:auto}
+.tab h3{font-size:14px;font-weight:600;margin:8px 0 4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--mute);font-weight:500;text-align:right;padding:6px 4px}
+td{padding:8px 4px;border-top:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+
+/* fenêtres du bas */
+.voile{position:fixed;inset:0;background:rgba(3,5,14,.72);z-index:40;display:flex;align-items:flex-end;justify-content:center;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:18px;width:100%;max-width:488px;animation:monte .22s ease-out}
+@keyframes monte{from{transform:translateY(24px);opacity:.4}}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+.sheet header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.sheet header h3{margin:0;font-size:20px;font-weight:600}
+.sheet header button{color:var(--acc);font-size:26px;line-height:1;width:32px;height:32px}
+.sheet .corps{padding:18px 20px 6px;line-height:1.5}
+.sheet .corps p{margin:0 0 10px}
+.sheet .corps .gris{color:var(--mute)}
+.sheet .fermer{display:block;width:100%;padding:16px;font-weight:500;font-size:16px}
+.champ{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:0 14px;margin:6px 0 12px}
+.champ input{flex:1;min-width:0;background:none;border:0;color:var(--ink);font:inherit;font-size:22px;font-weight:600;padding:12px 0}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.seg button{border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+label.t{font-size:13px;color:var(--mute)}
+
+/* barre du bas */
+nav.bas{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--panel);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+nav.bas .in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);align-items:end}
+nav.bas button{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;color:var(--ink);padding:4px 0}
+nav.bas button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8}
+nav.bas button[aria-current="page"]{color:var(--g1)}
+nav.bas .plus{width:60px;height:60px;border-radius:50%;background:linear-gradient(140deg,var(--acc),#9B5CF0);color:#fff;font-size:32px;margin:-30px auto 0;display:grid;place-items:center;box-shadow:0 6px 22px rgba(124,128,244,.45)}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <h1><a href="../" aria-label="Retour à l'accueil Replieka">Replieka<small id="maj">Suivi officiel des pronos</small></a></h1>
+    <div class="unit" role="group" aria-label="Unité">
+      <button id="u-eur" aria-pressed="true">€</button><button id="u-u" aria-pressed="false">u</button>
+    </div>
+  </header>
+
+  <main id="v-home">
+    <section class="chart" aria-label="Courbe des bénéfices">
+      <div class="head"><div><span id="ch-lab">Bénéfice · tout</span><b id="ch-val" class="num">0 €</b></div><span id="ch-br" class="num"></span></div>
+      <svg id="courbe" viewBox="0 0 360 230" role="img" aria-label="Évolution du bénéfice"></svg>
+      <div class="vide" id="ch-vide" hidden>Aucun pari réglé sur cette période</div>
+      <div class="pills" id="pills">
+        <button data-p="1j">1j</button><button data-p="1s">1s</button><button data-p="1m">1m</button><button data-p="tout">Tout</button><button id="b-filtres">Filtres</button>
+      </div>
+    </section>
+    <div class="duo">
+      <button class="btn" data-go="stats"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg>Analyzer</button>
+      <button class="btn" data-go="cal"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Calendrier</button>
+    </div>
+    <div class="duo">
+      <div class="kpi"><button class="q" data-info="paris" aria-label="Explication : nombre de paris">?</button><span>Paris</span><b class="num blue" id="k-paris">0</b></div>
+      <div class="kpi"><button class="q" data-info="benef" aria-label="Explication : bénéfice">?</button><span>Bénéfice</span><b class="num" id="k-benef">0</b></div>
+      <div class="kpi"><button class="q" data-info="roi" aria-label="Explication : ROI">?</button><span>ROI</span><b class="num" id="k-roi">0</b></div>
+      <div class="kpi"><button class="q" data-info="prog" aria-label="Explication : progression">?</button><span>Progression</span><b class="num" id="k-prog">0</b></div>
+    </div>
+  </main>
+
+  <main id="v-paris" hidden><h2>Paris</h2><div id="liste"></div></main>
+
+  <main id="v-cal" hidden>
+    <h2>Calendrier des bénéfices</h2>
+    <div class="calnav"><button class="fl" id="c-prev" aria-label="Mois précédent">‹</button><div class="mois" id="c-mois"></div><button class="fl" id="c-next" aria-label="Mois suivant">›</button><button class="auj" id="c-auj">Aujourd'hui</button></div>
+    <div class="cal" id="cal"></div>
+    <div class="duo"><div class="mbox"><span>Bénéfice du mois</span><b class="num" id="c-benef">0</b></div><div class="mbox"><span>Paris du mois</span><b class="num blue" id="c-paris">0</b></div></div>
+  </main>
+
+  <main id="v-stats" hidden><h2>Analyzer</h2><div id="stats"></div></main>
+</div>
+
+<nav class="bas"><div class="in">
+  <button data-go="home" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/></svg>Accueil</button>
+  <button data-go="paris"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>Paris</button>
+  <button id="b-br" aria-label="Ma bankroll"><span class="plus">+</span></button>
+  <button data-go="stats"><svg viewBox="0 0 24 24"><path d="M4 20h16M7 16v-4M11 16V9M15 16v-6M19 16V6M4 13l5-5 4 3 7-7"/></svg>Stats</button>
+  <button data-go="cal"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Calendrier</button>
+</div></nav>
+
+<div class="voile" id="voile" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="s-titre">
+  <header><h3 id="s-titre"></h3><button id="s-x" aria-label="Fermer">×</button></header>
+  <div class="corps" id="s-corps"></div>
+  <button class="fermer" id="s-fermer">Fermer</button>
+</div></div>
+
+<script>
+const PARIS = [["2026-10-23T16:30","t","ATP Almaty","Alexander Bublik","Karen Khachanov","Victoire Alexander Bublik",1.79,1.0,"c","g"],["2026-10-23T21:00","f","Premier League","Ipswich Town","Nottingham Forest","Ipswich Town ou nul (double chance)",1.56,2.0,"v","g"],["2026-10-23T21:00","f","Liga","Alavés","Malaga CF","Victoire Alavés",1.76,2.0,"v","p"],["2026-10-24T15:00","f","Serie A","Côme","Sassuolo","Victoire Côme",1.47,1.0,"c","g"],["2026-10-24T15:30","f","Bundesliga","Augsbourg","Union Berlin","Plus de 1,5 buts",1.52,1.0,"c","g"],["2026-10-24T15:30","f","Bundesliga","Mayence","Werder Brême","Les deux équipes marquent",1.45,1.0,"c","g"],["2026-10-24T18:30","f","Premier League","Chelsea","Tottenham","Victoire Chelsea",1.7,1.0,"c","p"],["2026-10-24T18:30","f","Liga","Valence","Villarreal CF","Victoire Villarreal CF",2.1,1.0,"c","g"],["2026-10-25T14:30","t","ATP Lyon","Taylor Fritz","Lorenzo Musetti","Victoire Taylor Fritz",1.5,2.0,"v","p"],["2026-10-25T15:00","f","Premier League","Manchester United","Bournemouth","Bournemouth ou nul (double chance)",1.6,2.0,"v","g"],["2026-10-25T15:30","f","Bundesliga","Hoffenheim","Bayer Leverkusen","Bayer Leverkusen ou nul (double chance)",1.43,2.0,"v","p"],["2026-10-25T17:15","f","Ligue 1","Rennes","Strasbourg","Victoire Rennes",1.74,2.0,"v","g"],["2026-10-25T17:15","f","Ligue 1","Auxerre","Le Mans FC","Victoire Auxerre",2.05,2.0,"v","p"],["2026-10-25T21:00","f","Liga","FC Barcelone","Real Madrid","Real Madrid ou nul (double chance)",2.15,2.0,"m","g"],["2026-10-26T21:00","f","Liga","Séville","CA Osasuna","Victoire Séville",1.92,1.0,"c","g"],["2026-10-28T18:30","f","Serie A","Milan AC","Bologne","Victoire Milan AC",1.72,1.0,"c","p"],["2026-10-28T20:45","f","Serie A","Genoa","Juventus","Victoire Juventus",1.7,1.0,"c","p"],["2026-10-29T14:00","t","ATP Bâle","Alex Michelsen","Arthur Fils","Victoire Arthur Fils",1.44,1.0,"c","g"],["2026-10-29T20:00","t","ATP Vienne","Flavio Cobolli","Matteo Berrettini","Victoire Flavio Cobolli",1.92,1.0,"c","r"],["2026-10-30T19:00","f","Ligue 1","Nice","Rennes","Victoire Rennes",2.34,1.0,"c","p"],["2026-10-30T21:05","f","Ligue 1","Lille","Lens","Lens ou nul (double chance)",1.49,2.0,"v","p"],["2026-10-31T13:30","f","Premier League","Chelsea","Manchester United","Victoire Chelsea",1.84,1.0,"c","g"],["2026-10-31T15:30","f","Bundesliga","Werder Brême","Hoffenheim","Werder Brême ou nul (double chance)",1.66,2.0,"v","g"],["2026-10-31T16:00","f","Premier League","Bournemouth","Leeds","Victoire Bournemouth",2.08,1.0,"c","g"],["2026-10-31T18:30","f","Bundesliga","Bayern Munich","Borussia Dortmund","Plus de 2,5 buts",1.62,1.0,"c","g"],["2026-11-01T15:30","t","ATP Bâle","Valentin Vacherot","Jiří Lehečka","Victoire Valentin Vacherot",2.55,1.0,"m","g"],["2026-11-01T18:00","f","Serie A","Lecce","Genoa","Victoire Genoa",2.5,1.0,"c","g"],["2026-11-01T21:00","f","Liga","Athletic Bilbao","Real Sociedad","Real Sociedad ou nul (double chance)",1.6,2.0,"v","p"],["2026-11-02T18:30","f","Serie A","Sassuolo","Fiorentina","Sassuolo ou nul (double chance)",1.51,2.0,"v","p"],["2026-11-02T20:45","f","Ligue 1","Lorient","Brest","Victoire Lorient",2.4,1.0,"c","p"],["2026-11-03T21:00","f","Ligue Des Champions","Manchester United","AS Roma","AS Roma ou nul (double chance)",1.52,5.0,"v","p"],["2026-11-03T21:00","f","Ligue Des Champions","Villarreal CF","PSG","Victoire PSG",1.58,5.0,"v","g"],["2026-11-03T21:00","f","Ligue des Champions","Manchester United","AS Roma","Buteur : Donyell Malen",2.0,1.0,"m","g"],["2026-11-03T21:00","f","Ligue Des Champions","Atlético Madrid","Bayern Munich","Bayern Munich ou nul (double chance)",1.43,5.0,"v","g"],["2026-11-04T21:00","f","Ligue Des Champions","PSV Eindhoven","FC Bruges","FC Bruges ou nul (double chance)",1.76,5.0,"v","g"],["2026-11-04T21:00","f","Ligue des Champions","RC Lens","Côme","Joueur décisif : Nico Paz",1.7,3.0,"m","g"],["2026-11-05T21:00","f","Ligue Europa","Celta Vigo","Union Saint-Gilloise","Victoire Union Saint-Gilloise",3.2,5.0,"v","g"],["2026-11-05T21:00","f","Conference League","Monaco","FC Nordsjælland","Victoire Monaco",1.41,3.0,"c","g"],["2026-11-07T18:30","f","Premier League","Nottingham Forest","Manchester City","Victoire Manchester City",1.71,5.0,"v","p"],["2026-11-08T12:30","f","Serie A","Naples","Lazio Rome","Lazio Rome ou nul (double chance)",1.54,3.0,"c","g"],["2026-11-08T15:00","f","Premier League","Ipswich Town","Bournemouth","Victoire Bournemouth",1.88,3.0,"c","g"],["2026-11-08T15:00","f","Premier League","Brighton","Brentford","Victoire Brighton",1.88,3.0,"c","g"],["2026-11-08T15:00","f","Premier League","Crystal Palace","Liverpool","Victoire Liverpool",1.54,3.0,"c","g"],["2026-11-08T15:00","f","Premier League","Sunderland","Chelsea","Victoire Chelsea",1.94,3.0,"c","p"],["2026-11-08T15:00","t","ATP","Carlos Alcaraz","Ben Shelton","Alcaraz gagne 2 sets à 0",1.65,3.0,"m","g"],["2026-11-08T16:15","f","Liga","Real Sociedad","Rayo Vallecano","Victoire Real Sociedad",1.71,3.0,"c","g"],["2026-11-08T17:15","f","Ligue 1","Brest","Lyon","Lyon ou nul (double chance)",1.43,3.0,"c","p"],["2026-11-08T17:15","f","Ligue 1","Le Mans FC","Monaco","Victoire Monaco",1.7,3.0,"c","p"],["2026-11-08T17:15","f","Ligue 1","Angers","Nice","Victoire Nice",2.04,3.0,"c","g"],["2026-11-08T17:15","f","Ligue 1","Le Havre","Lorient","Lorient ou nul (double chance)",1.42,3.0,"c","g"],["2026-11-08T17:30","f","Bundesliga","Fribourg","Union Berlin","Victoire Fribourg",1.48,5.0,"v","g"],["2026-11-08T18:30","f","Liga","Celta Vigo","Levante","Victoire Celta Vigo",1.84,3.0,"c","p"],["2026-11-08T19:30","f","Bundesliga","Hoffenheim","Schalke 04","Victoire Hoffenheim",1.62,3.0,"c","g"],["2026-11-08T21:00","f","Liga","Atlético Madrid","FC Barcelone","Buteur : Lamine Yamal",2.0,1.0,"m","p"]];
+const MAJ = "08/11/2026 à 23:05";
+const NIV = {v:"🟢 Accord + value", c:"🟡 Accord", m:"✍️ Ajout perso"};
+const RES = {g:"Gagné", p:"Perdu", r:"Annulé", a:"En attente"};
+const INFOS = {
+  paris:["Nombre de paris","<p>Nombre total de paris que vous avez réalisés.</p><p class='gris'>Les paris avec un état \"En attente\" et \"Annulé\" ne sont pas comptabilisés.</p>"],
+  benef:["Bénéfice","<p>Calcul du bénéfice de votre bankroll :<br>(Total de vos gains - Total de vos mises) = Bénéfice</p><p class='gris'>Les paris avec un état \"En attente\" et \"Annulé\" ne sont pas comptabilisés.</p>"],
+  roi:["ROI","<p>Le ROI (Return On Investment) mesure le rapport entre les bénéfices réalisés et le montant total des mises.<br>(Bénéfices / Mises totales) x 100 = ROI</p><p class='gris'>Les paris avec un état \"En attente\" et \"Annulé\" ne sont pas pris en compte.</p>"],
+  prog:["Progression / ROC","<p>La progression est calculée selon le rapport entre les bénéfices réalisés et le capital de départ de la bankroll.<br>(Bénéfices / Capital de départ) x 100 = Progression</p>"]
+};
+
+const lire=(k,d)=>{try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}};
+const garder=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const S = {bk:lire("rp_bk2",1000), unite:lire("rp_u","eur"), per:"tout", sport:"tous", niv:"tous", mois:null, vue:"home"};
+
+const B = PARIS.map(([t,sp,comp,dom,ext,pari,cote,mise,niv,res,h])=>({t,h,d:new Date(t),j:t.slice(0,10),sp,comp,dom,ext,pari,cote,mise,niv,res}));
+const regle = x=>x.res==="g"||x.res==="p";
+// mise en % de la bankroll de départ → montant dans l'unité choisie
+const base = ()=> S.unite==="eur" ? S.bk : 100;
+const mise = x=> x.mise/100*base();
+const gain = x=> x.res==="g" ? mise(x)*(x.cote-1) : x.res==="p" ? -mise(x) : 0;
+
+const nf = (n,d=2)=>n.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const argent = (n,sig=true,d=2)=> (sig&&n>0?"+":"")+nf(n,d)+(S.unite==="eur"?" €":" u");
+const cls = n=> n>0?"pos":n<0?"neg":"";
+
+function filtres(list){
+  return list.filter(x=>(S.sport==="tous"||x.sp===S.sport)&&(S.niv==="tous"||x.niv===S.niv));
+}
+function periode(list){
+  if(S.per==="tout") return list;
+  const now=new Date(), j0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const debut = S.per==="1j"? j0 : new Date(j0.getTime()-(S.per==="1s"?6:29)*864e5);
+  return list.filter(x=>x.d>=debut);
+}
+function stats(list){
+  const j=list.filter(regle), mises=j.reduce((s,x)=>s+mise(x),0), b=j.reduce((s,x)=>s+gain(x),0);
+  return {n:j.length, g:j.filter(x=>x.res==="g").length, mises, b, roi:mises?b/mises*100:0, prog:b/base()*100};
+}
+
+/* ---------- courbe ---------- */
+function courbe(list){
+  const svg=document.getElementById("courbe"), j=list.filter(regle).sort((a,b)=>a.d-b.d);
+  document.getElementById("ch-vide").hidden = j.length>0;
+  const pts=[0]; j.forEach(x=>pts.push(pts[pts.length-1]+gain(x)));
+  const W=360,H=230,l=48,r=10,t=12,b=14;
+  let lo=Math.min(0,...pts), hi=Math.max(0,...pts);
+  const pas = (()=>{const brut=(hi-lo||1)/4, p=Math.pow(10,Math.floor(Math.log10(brut))), m=brut/p; return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*p})();
+  lo=Math.floor(lo/pas)*pas; hi=Math.ceil(hi/pas)*pas; if(hi===lo) hi=lo+pas;
+  const X=i=>l+(W-l-r)*(pts.length>1?i/(pts.length-1):0), Y=v=>t+(H-t-b)*(1-(v-lo)/(hi-lo));
+  let h="";
+  for(let v=lo; v<=hi+1e-9; v+=pas){
+    const y=Y(v).toFixed(1);
+    h+=`<line x1="${l}" x2="${W-r}" y1="${y}" y2="${y}" stroke="rgba(255,255,255,${v===0?.55:.22})" stroke-width="1"/>`;
+    h+=`<text x="${l-6}" y="${+y+4}" text-anchor="end" font-size="11" fill="#fff" font-family="Poppins,sans-serif">${nf(v,pas<1?1:0)} ${S.unite==="eur"?"€":"u"}</text>`;
+  }
+  if(j.length){
+    const P=pts.map((v,i)=>[X(i),Y(v)]);
+    let d=`M${P[0][0].toFixed(1)} ${P[0][1].toFixed(1)}`;
+    for(let i=0;i<P.length-1;i++){ // lissage Catmull-Rom
+      const p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2;
+      const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6], c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];
+      d+=` C${c1[0].toFixed(1)} ${c1[1].toFixed(1)},${c2[0].toFixed(1)} ${c2[1].toFixed(1)},${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+    }
+    const fin=P[P.length-1];
+    h+=`<path d="${d} L${fin[0].toFixed(1)} ${Y(lo).toFixed(1)} L${P[0][0].toFixed(1)} ${Y(lo).toFixed(1)}Z" fill="rgba(255,255,255,.10)"/>`;
+    h+=`<path d="${d}" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    h+=`<circle cx="${fin[0].toFixed(1)}" cy="${fin[1].toFixed(1)}" r="5" fill="#fff"/>`;
+  }
+  svg.innerHTML=h;
+}
+
+/* ---------- vues ---------- */
+const LIB={"1j":"aujourd'hui","1s":"7 derniers jours","1m":"30 derniers jours","tout":"depuis le 23/10"};
+function accueil(){
+  const list=periode(filtres(B)), s=stats(list), tout=stats(filtres(B));
+  courbe(list);
+  document.getElementById("ch-lab").textContent="Bénéfice · "+LIB[S.per];
+  document.getElementById("ch-val").textContent=argent(s.b);
+  document.getElementById("ch-br").textContent="Bankroll "+nf(base()+tout.b)+(S.unite==="eur"?" €":" u");
+  document.getElementById("k-paris").textContent=s.n;
+  const kb=document.getElementById("k-benef"); kb.innerHTML=(s.b>0?"+":"")+nf(s.b)+`<small>${S.unite==="eur"?"€":"u"}</small>`; kb.className="num "+cls(s.b);
+  const kr=document.getElementById("k-roi"); kr.innerHTML=(s.roi>0?"+":"")+nf(s.roi)+"<small>%</small>"; kr.className="num "+cls(s.roi);
+  const kp=document.getElementById("k-prog"); kp.innerHTML=(s.prog>0?"+":"")+nf(s.prog)+"<small>%</small>"; kp.className="num "+cls(s.prog);
+  document.querySelectorAll("#pills [data-p]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===S.per));
+  document.getElementById("b-filtres").classList.toggle("on-filtre",S.sport!=="tous"||S.niv!=="tous");
+}
+function carte(x){
+  const g=gain(x);
+  return `<div class="pari"><div class="m">${x.sp==="t"?"🎾":"⚽"} ${esc(x.dom)} – ${esc(x.ext)}</div>
+    <div class="r num ${cls(g)}">${regle(x)?argent(g):"–"}</div>
+    <div class="p">${esc(x.pari)} · <span class="num">${nf(x.cote)}</span></div>
+    <div class="d" style="text-align:right">${nf(mise(x),S.unite==="eur"?2:1)}${S.unite==="eur"?" €":" u"}<span class="chip ${x.res}">${RES[x.res]}</span></div>
+    <div class="d">${x.h||x.t.slice(11)} · ${esc(x.comp)}</div></div>`;
+}
+function ouvrirJour(k){
+  const js=filtres(B).filter(x=>x.j===k).sort((a,b)=>a.d-b.d), s=stats(js);
+  const titre=new Date(k+"T12:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+  ouvrir(titre.charAt(0).toUpperCase()+titre.slice(1),
+    `<div class="resume"><span>${s.n} pari${s.n>1?"s":""} réglé${s.n>1?"s":""} sur ${js.length}</span><b class="num ${cls(s.b)}">${argent(s.b)}</b></div>`+js.map(carte).join(""));
+}
+function paris(){
+  const list=filtres(B).slice().sort((a,b)=>b.d-a.d); let h="", jour="";
+  list.forEach(x=>{
+    if(x.j!==jour){jour=x.j; h+=`<div class="jour">${x.d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>`;}
+    const g=gain(x);
+    h+=`<div class="pari"><div class="m">${x.sp==="t"?"🎾":"⚽"} ${esc(x.dom)} – ${esc(x.ext)}</div>
+      <div class="r num ${cls(g)}">${regle(x)?argent(g):"–"}</div>
+      <div class="p">${esc(x.pari)} · <span class="num">${nf(x.cote)}</span></div>
+      <div class="d" style="text-align:right">${nf(mise(x),S.unite==="eur"?2:1)}${S.unite==="eur"?" €":" u"}<span class="chip ${x.res}">${RES[x.res]}</span></div>
+      <div class="d">${x.t.slice(11)} · ${esc(x.comp)}</div></div>`;
+  });
+  document.getElementById("liste").innerHTML=h||"<p class='note'>Aucun pari avec ces filtres.</p>";
+}
+function calendrier(){
+  if(!S.mois){const n=new Date(); S.mois=new Date(n.getFullYear(),n.getMonth(),1);}
+  const m=S.mois, an=m.getFullYear(), mo=m.getMonth();
+  document.getElementById("c-mois").textContent=m.toLocaleDateString("fr-FR",{month:"long",year:"numeric"});
+  const list=filtres(B).filter(regle), parJour={}, tousJour={};
+  filtres(B).forEach(x=>{(tousJour[x.j]=tousJour[x.j]||[]).push(x)});
+  list.forEach(x=>{(parJour[x.j]=parJour[x.j]||[]).push(x)});
+  const decal=(m.getDay()+6)%7, debut=new Date(an,mo,1-decal), aujd=iso(new Date());
+  let h="LMMJVSD".split("").map(c=>`<div class="dow">${c}</div>`).join("");
+  const nbCases = Math.ceil((decal+new Date(an,mo+1,0).getDate())/7)*7;
+  for(let i=0;i<nbCases;i++){
+    const d=new Date(debut.getFullYear(),debut.getMonth(),debut.getDate()+i), k=iso(d), dans=d.getMonth()===mo;
+    const js=dans?parJour[k]:null; let c="c"+(dans?"":" hors")+(k===aujd?" auj":""), val="";
+    if(js){const g=js.reduce((s,x)=>s+gain(x),0); c+=g>0?" v":g<0?" x":" n";
+      val=`<small>${g>0?"+":""}${S.unite==="eur"?nf(g,Math.abs(g)<10?1:0)+" €":nf(g,1)+" u"}</small>`;}
+    if(dans&&tousJour[k]){ if(!js){c+=" att"; val="<small>•</small>";}
+      h+=`<button class="${c}" data-j="${k}" aria-label="Voir les paris du ${d.getDate()}">${d.getDate()}${val}</button>`; }
+    else h+=`<div class="${c}">${d.getDate()}${val}</div>`;
+  }
+  document.getElementById("cal").innerHTML=h;
+  document.querySelectorAll("#cal [data-j]").forEach(b=>b.onclick=()=>ouvrirJour(b.dataset.j));
+  const dm=list.filter(x=>x.d.getFullYear()===an&&x.d.getMonth()===mo), s=stats(dm);
+  const cb=document.getElementById("c-benef"); cb.textContent=argent(s.b); cb.className="num "+cls(s.b);
+  document.getElementById("c-paris").textContent=s.n;
+}
+function analyzer(){
+  const list=periode(filtres(B));
+  const bloc=(titre,cle)=>{const g={}; list.forEach(x=>{const k=cle(x);(g[k]=g[k]||[]).push(x)});
+    const rows=Object.entries(g).map(([k,v])=>[k,stats(v)]).sort((a,b)=>b[1].n-a[1].n);
+    return `<div class="tab"><h3>${titre}</h3><table><thead><tr><th></th><th>Paris</th><th>Réussite</th><th>Bénéfice</th><th>ROI</th></tr></thead><tbody>${
+      rows.map(([k,s])=>`<tr><td>${esc(k)}</td><td class="num">${s.n}</td><td class="num">${s.n?Math.round(s.g/s.n*100)+" %":"–"}</td><td class="num ${cls(s.b)}">${argent(s.b)}</td><td class="num ${cls(s.roi)}">${s.n?(s.roi>0?"+":"")+nf(s.roi,1)+" %":"–"}</td></tr>`).join("")
+    }</tbody></table></div>`;};
+  const j=list.filter(regle), cm=j.length?j.reduce((s,x)=>s+x.cote,0)/j.length:0;
+  let serie=0,pire=0; j.slice().sort((a,b)=>a.d-b.d).forEach(x=>{serie=x.res==="p"?serie+1:0; pire=Math.max(pire,serie)});
+  document.getElementById("stats").innerHTML=
+    `<div class="duo" style="margin:0 0 14px"><div class="mbox"><span>Cote moyenne</span><b class="num">${cm?nf(cm):"–"}</b></div><div class="mbox"><span>Pire série</span><b class="num">${pire} perdu${pire>1?"s":""}</b></div></div>`+
+    bloc("Par sport",x=>x.sp==="t"?"🎾 Tennis":"⚽ Foot")+bloc("Par compétition",x=>x.comp.replace(/Ligue Des/,"Ligue des"));
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+
+function tout(){
+  document.getElementById("u-eur").setAttribute("aria-pressed",S.unite==="eur");
+  document.getElementById("u-u").setAttribute("aria-pressed",S.unite==="u");
+  ({home:accueil,paris:paris,cal:calendrier,stats:analyzer})[S.vue]();
+}
+function aller(v){
+  S.vue=v; ["home","paris","cal","stats"].forEach(k=>document.getElementById("v-"+k).hidden=k!==v);
+  document.querySelectorAll("nav.bas [data-go]").forEach(b=>{if(b.dataset.go===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
+  if(location.hash.slice(1)!==v) history.replaceState(null,"","#"+v);
+  tout(); window.scrollTo(0,0);
+}
+
+/* ---------- fenêtres ---------- */
+const voile=document.getElementById("voile");
+function ouvrir(titre,html,apres){document.getElementById("s-titre").textContent=titre;document.getElementById("s-corps").innerHTML=html;voile.hidden=false;apres&&apres();}
+function fermer(){voile.hidden=true;}
+["s-x","s-fermer"].forEach(id=>document.getElementById(id).onclick=fermer);
+voile.onclick=e=>{if(e.target===voile)fermer()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")fermer()});
+document.querySelectorAll("[data-info]").forEach(b=>b.onclick=()=>ouvrir(...INFOS[b.dataset.info]));
+
+function seg(id,opts,val,fn){return `<div class="seg" id="${id}">${opts.map(([k,l])=>`<button data-k="${k}" aria-pressed="${k===val}">${l}</button>`).join("")}</div>`}
+function brancher(id,fn){document.querySelectorAll("#"+id+" button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#"+id+" button").forEach(x=>x.setAttribute("aria-pressed",x===b));fn(b.dataset.k);tout();})}
+document.getElementById("b-filtres").onclick=()=>ouvrir("Filtres",
+  `<label class="t">Sport</label>${seg("f-sp",[["tous","Tous"],["f","⚽ Foot"],["t","🎾 Tennis"]],S.sport)}`,
+  ()=>{brancher("f-sp",k=>S.sport=k);});
+document.getElementById("b-br").onclick=()=>ouvrir("Ma bankroll",
+  `<p>Entre ta bankroll de départ. Chaque prono est misé en % de ce montant, la page affiche donc tes gains et tes pertes en euros.</p>
+   <label class="t" for="i-bk">Bankroll de départ</label>
+   <div class="champ"><input id="i-bk" type="number" inputmode="decimal" min="1" step="10" value="${S.bk}"><span>€</span></div>
+   <p class="gris">En mode « u », la bankroll vaut 100 unités : 1 u = 1 % de la bankroll. C'est la même courbe, à une autre échelle.</p>`,
+  ()=>{const i=document.getElementById("i-bk"); i.oninput=()=>{const v=parseFloat(i.value); if(v>0){S.bk=v;garder("rp_bk2",v);tout();}};});
+
+/* ---------- branchements ---------- */
+document.querySelectorAll("#pills [data-p]").forEach(b=>b.onclick=()=>{S.per=b.dataset.p;tout()});
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>aller(b.dataset.go));
+document.getElementById("u-eur").onclick=()=>{S.unite="eur";garder("rp_u","eur");tout()};
+document.getElementById("u-u").onclick=()=>{S.unite="u";garder("rp_u","u");tout()};
+document.getElementById("c-prev").onclick=()=>{S.mois=new Date(S.mois.getFullYear(),S.mois.getMonth()-1,1);tout()};
+document.getElementById("c-next").onclick=()=>{S.mois=new Date(S.mois.getFullYear(),S.mois.getMonth()+1,1);tout()};
+document.getElementById("c-auj").onclick=()=>{S.mois=null;tout()};
+window.addEventListener("hashchange",()=>{const v=location.hash.slice(1); if(["home","paris","cal","stats"].includes(v)&&v!==S.vue) aller(v)});
+document.getElementById("maj").textContent="Mis à jour le "+MAJ;
+const v0=location.hash.slice(1); aller(["home","paris","cal","stats"].includes(v0)?v0:"home");
+</script>
+
+</body>
+</html>
