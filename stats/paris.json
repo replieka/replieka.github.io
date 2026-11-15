@@ -1,6 +1,12 @@
 {
-"maj": "15/11/2026 à 23:29",
+"maj": "15/11/2026 à 23:41",
 "paris": [
-
+["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
+["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
+["2026-11-15T13:00", "f", "Ligue des nations", "Espagne", "Angleterre", "Angleterre ou nul", 1.8, 5, "m", "g"],
+["2026-11-15T13:00", "f", "Ligue des nations", "Espagne", "Angleterre", "Harry Kane Décisif", 2, 5, "m", "g"],
+["2026-11-15T13:00", "f", "Ligue des nations", "Biélorussie", "Albanie", "Albanie", 2, 5, "m", "g"],
+["2026-11-15T18:00", "t", "Wta Finals LIVE", "Svitolina", "Andreva", "Svitolina gagne le 2eme set", 3.25, 1, "m", "p"],
+["2026-11-16T01:00", "t", "Wta Finals Double", "Siniakova/Townsend", "Errani/Paolini", "Errani/Paolini gagne au moins 1 set - oui", 1.9, 5, "m", "a"]
 ]
 }
