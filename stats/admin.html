@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Replieka · Admin résultats</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+/* Éditeur privé des paris. Il écrit stats/paris.json dans le dépôt GitHub avec le jeton du propriétaire,
+   gardé seulement dans ce navigateur. Sans jeton valide, GitHub refuse toute écriture. */
+:root{--bg:#050816;--panel:#0E1529;--panel2:#141D36;--line:#1F2945;--ink:#F2F4FA;--mute:#8A93AE;--acc:#7C80F4;
+  --ok:#2EE59D;--ko:#FF6B81;--font:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:dark}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.app{max-width:560px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-left,0px)) 120px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0 14px}
+h1{font-size:20px;margin:0}h1 small{display:block;font-size:12px;font-weight:400;color:var(--mute)}
+.lien{color:var(--acc);font-size:13px;font-weight:600;text-decoration:none}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.box p{margin:0 0 10px;line-height:1.5}.gris{color:var(--mute);font-size:13px}
+label.t{display:block;color:var(--mute);font-size:13px;margin:12px 0 6px}
+input,select{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prim{background:var(--acc);color:#fff;border-radius:12px;padding:13px 16px;font-weight:600;width:100%}
+.sec{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-weight:600}
+.seg{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;padding:9px 6px;border-radius:9px;font-size:14px;font-weight:600;color:var(--mute)}
+.seg button[aria-pressed="true"]{background:var(--acc);color:#fff}
+.resume{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.resume div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.resume span{display:block;color:var(--mute);font-size:12px}.resume b{font-size:18px}
+.pos{color:var(--ok)}.neg{color:var(--ko)}
+.filtre{margin-bottom:12px}
+.jour{color:var(--mute);font-size:13px;font-weight:500;margin:16px 2px 8px;text-transform:capitalize}
+.pari{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.pari.modif{border-color:var(--acc)}
+.pari .l1{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.pari .m{font-weight:600}.pari .d{color:var(--mute);font-size:12px}
+.pari .p{font-size:14px;margin:2px 0 8px}
+.res{display:grid;grid-template-columns:repeat(4,1fr) 44px;gap:6px}
+.res button{border:1px solid var(--line);border-radius:10px;padding:8px 2px;font-size:13px;font-weight:600;color:var(--mute);background:var(--panel2)}
+.res button[aria-pressed="true"].g{background:rgba(46,229,157,.18);border-color:var(--ok);color:var(--ok)}
+.res button[aria-pressed="true"].p{background:rgba(255,107,129,.18);border-color:var(--ko);color:var(--ko)}
+.res button[aria-pressed="true"].r{background:var(--line);color:var(--ink)}
+.res button[aria-pressed="true"].a{border-color:var(--ink);color:var(--ink)}
+.res .ed{font-size:16px}
+.barre{position:fixed;left:0;right:0;bottom:0;background:rgba(5,8,22,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);
+  padding:12px max(16px,env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px))}
+.barre .in{max-width:560px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.barre .etat{flex:1;font-size:13px;color:var(--mute)}
+.barre .prim{width:auto;padding:13px 22px}
+.barre .prim:disabled{opacity:.35;cursor:default}
+.voile{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.sheet h3{margin:0 0 4px;font-size:18px}
+.vite{display:flex;gap:6px;margin-top:6px}.vite button{flex:1}
+.actions{display:flex;gap:10px;margin-top:18px}.actions button{flex:1}
+.suppr{color:var(--ko)}
+.toast{position:fixed;left:50%;top:16px;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-size:14px;z-index:30;max-width:90vw}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Admin résultats<small id="maj">Replieka · privé</small></h1>
+    <a class="lien" href="./" target="_blank" rel="noopener">Voir le site ↗</a>
+  </header>
+
+  <!-- connexion -->
+  <section class="box" id="v-login" hidden>
+    <p><b>Connexion</b></p>
+    <p class="gris">Colle ton jeton GitHub (il commence par <code>github_pat_</code>). Il reste seulement dans ce navigateur. Sans lui, personne ne peut enregistrer.</p>
+    <label class="t" for="i-tok">Jeton GitHub</label>
+    <input id="i-tok" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+    <div style="height:12px"></div>
+    <button class="prim" id="b-login">Se connecter</button>
+    <p class="gris" id="login-err" style="margin-top:10px"></p>
+  </section>
+
+  <!-- éditeur -->
+  <section id="v-edit" hidden>
+    <div class="resume" id="resume"></div>
+    <button class="prim" id="b-add" style="margin-bottom:14px">+ Ajouter un pari</button>
+    <div class="filtre"><div class="seg" id="f-vue">
+      <button data-k="a" aria-pressed="true">En attente</button><button data-k="tous" aria-pressed="false">Tous</button>
+    </div></div>
+    <div id="liste"></div>
+    <p class="gris" style="text-align:center;margin-top:24px"><button class="lien" id="b-logout">Se déconnecter de ce navigateur</button></p>
+  </section>
+</div>
+
+<div class="barre" id="barre" hidden><div class="in">
+  <div class="etat" id="etat">Aucune modification</div>
+  <button class="prim" id="b-save" disabled>Enregistrer</button>
+</div></div>
+
+<div class="voile" id="voile" hidden><div class="sheet" role="dialog" aria-modal="true">
+  <h3 id="f-titre">Ajouter un pari</h3>
+  <label class="t">Sport</label><div class="seg" id="f-sp"><button data-k="f">⚽ Foot</button><button data-k="t">🎾 Tennis</button></div>
+  <label class="t" for="f-date">Date et heure du match</label><input id="f-date" type="datetime-local">
+  <label class="t" for="f-comp">Compétition</label><input id="f-comp" list="l-comp" placeholder="Ligue 1, ATP Paris…">
+  <div class="g2">
+    <div><label class="t" for="f-dom">Domicile / Joueur 1</label><input id="f-dom" list="l-eq"></div>
+    <div><label class="t" for="f-ext">Extérieur / Joueur 2</label><input id="f-ext" list="l-eq"></div>
+  </div>
+  <label class="t" for="f-pari">Pari</label><input id="f-pari" list="l-pari" placeholder="Victoire …, Buteur : …">
+  <div class="g2">
+    <div><label class="t" for="f-cote">Cote</label><input id="f-cote" type="text" inputmode="decimal" placeholder="1,85" autocomplete="off"></div>
+    <div><label class="t" for="f-mise">Mise (% bankroll)</label><input id="f-mise" type="text" inputmode="decimal" autocomplete="off">
+      <div class="vite"><button class="sec" data-m="1">1</button><button class="sec" data-m="3">3</button><button class="sec" data-m="5">5</button></div></div>
+  </div>
+  <label class="t">Résultat</label>
+  <div class="seg" id="f-res"><button data-k="a">En attente</button><button data-k="g">Gagné</button><button data-k="p">Perdu</button><button data-k="r">Annulé</button></div>
+  <p class="gris" id="f-err" style="color:var(--ko);margin-top:10px"></p>
+  <div class="actions"><button class="sec" id="f-annul">Annuler</button><button class="prim" id="f-ok">Valider</button></div>
+  <div style="text-align:center;margin-top:14px"><button class="suppr" id="f-suppr" hidden>Supprimer ce pari</button></div>
+</div></div>
+
+<datalist id="l-comp"></datalist><datalist id="l-eq"></datalist><datalist id="l-pari"></datalist>
+
+<script>
+const DEPOT = {owner:"replieka", repo:"replieka.github.io", chemin:"stats/paris.json", branche:"main"};
+const API = `https://api.github.com/repos/${DEPOT.owner}/${DEPOT.repo}`;
+const CLE = "rp_admin_tok";
+const RES = {g:"Gagné",p:"Perdu",r:"Annulé",a:"En attente"};
+const $ = id=>document.getElementById(id);
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nf = (n,d=2)=>n.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});
+let TOK = null, SHA = null, MAJ = "", L = [], ORIG = "", vue = "a", edit = null, ajout = false;
+
+function toast(m,ms=3200){const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),ms);}
+const hdr = ()=>({Authorization:"Bearer "+TOK, Accept:"application/vnd.github+json"});
+const b64e = s=>{const b=new TextEncoder().encode(s);let x="";for(let i=0;i<b.length;i+=0x8000)x+=String.fromCharCode(...b.subarray(i,i+0x8000));return btoa(x);};
+const b64d = s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g,"")),c=>c.charCodeAt(0)));
+// même mise en forme que le fichier d'origine : un pari par ligne
+const serial = (maj,list)=>'{\n"maj": '+JSON.stringify(maj)+',\n"paris": [\n'+list.map(p=>"["+p.map(x=>JSON.stringify(x)).join(", ")+"]").join(",\n")+'\n]\n}\n';
+const tri = ()=>L.sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0);
+const sale = ()=>JSON.stringify(L)!==ORIG;
+
+/* ---------- connexion ---------- */
+async function verifier(tok){
+  const r = await fetch(API,{headers:{Authorization:"Bearer "+tok,Accept:"application/vnd.github+json"}});
+  if(!r.ok) throw new Error(r.status===401?"Jeton refusé par GitHub.":"Dépôt introuvable avec ce jeton ("+r.status+").");
+  const j = await r.json();
+  if(!j.permissions||!j.permissions.push) throw new Error("Ce jeton ne permet pas d'écrire dans le dépôt.");
+}
+async function charger(){
+  const r = await fetch(`${API}/contents/${DEPOT.chemin}?ref=${DEPOT.branche}&t=${Date.now()}`,{headers:hdr(),cache:"no-store"});
+  if(!r.ok) throw new Error("Lecture de paris.json impossible ("+r.status+").");
+  const j = await r.json(); SHA = j.sha;
+  const D = JSON.parse(b64d(j.content)); MAJ = D.maj||""; L = D.paris||[]; tri(); ORIG = JSON.stringify(L);
+}
+async function entrer(tok){
+  TOK = tok; await verifier(tok); await charger();
+  try{localStorage.setItem(CLE,tok)}catch(e){}
+  $("v-login").hidden=true; $("v-edit").hidden=false; $("barre").hidden=false; rendre();
+}
+$("b-login").onclick = async()=>{
+  const t=$("i-tok").value.trim(); $("login-err").textContent="";
+  if(!t){$("login-err").textContent="Colle ton jeton.";return;}
+  $("b-login").disabled=true; $("b-login").textContent="Vérification…";
+  try{await entrer(t);}catch(e){$("login-err").textContent=e.message; TOK=null;}
+  $("b-login").disabled=false; $("b-login").textContent="Se connecter";
+};
+$("b-logout").onclick = ()=>{ if(sale()&&!confirm("Des modifications ne sont pas enregistrées. Se déconnecter quand même ?"))return;
+  try{localStorage.removeItem(CLE)}catch(e){} location.reload(); };
+
+/* ---------- affichage ---------- */
+function resume(){
+  const j=L.filter(p=>p[9]==="g"||p[9]==="p"), mises=j.reduce((s,p)=>s+ +p[7],0),
+        b=j.reduce((s,p)=>s+(p[9]==="g"?p[7]*(p[6]-1):-p[7]),0), att=L.filter(p=>p[9]==="a").length;
+  const c=n=>n>0?"pos":n<0?"neg":"";
+  $("resume").innerHTML=`<div><span>En attente</span><b>${att}</b></div>
+    <div><span>Bénéfice</span><b class="${c(b)}">${b>0?"+":""}${nf(b)} u</b></div>
+    <div><span>ROI</span><b class="${c(b)}">${mises?nf(b/mises*100,1):"0"} %</b></div>`;
+}
+function rendre(){
+  resume();
+  $("maj").textContent = MAJ ? "Site mis à jour le "+MAJ : "Replieka · privé";
+  const orig = JSON.parse(ORIG||"[]").map(p=>JSON.stringify(p));
+  const idx = L.map((p,i)=>i).filter(i=>vue==="tous"||L[i][9]==="a"||!orig.includes(JSON.stringify(L[i]))).sort((a,b)=>L[b][0]<L[a][0]?-1:1);
+  let h="", jour="";
+  if(!idx.length) h=`<p class="gris" style="text-align:center;margin-top:30px">${vue==="a"?"Aucun pari en attente. Ajoute les pronos du jour avec le bouton du haut.":"Aucun pari."}</p>`;
+  idx.forEach(i=>{const p=L[i], d=new Date(p[0]), k=p[0].slice(0,10);
+    if(k!==jour){jour=k; h+=`<div class="jour">${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>`;}
+    const mod = !orig.includes(JSON.stringify(p));
+    h+=`<div class="pari${mod?" modif":""}">
+      <div class="l1"><span class="m">${esc(p[3])} – ${esc(p[4])}</span><span class="d">${p[0].slice(11,16)}</span></div>
+      <div class="d">${p[1]==="t"?"🎾":"⚽"} ${esc(p[2])}</div>
+      <div class="p">${esc(p[5])} · <b>@ ${nf(+p[6])}</b> · ${String(p[7]).replace(".",",")} %</div>
+      <div class="res">${["g","p","r","a"].map(r=>`<button class="${r}" data-i="${i}" data-r="${r}" aria-pressed="${p[9]===r}">${RES[r]}</button>`).join("")}
+        <button class="ed" data-e="${i}" aria-label="Modifier">✎</button></div></div>`;});
+  $("liste").innerHTML=h;
+  document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{L[+b.dataset.i][9]=b.dataset.r; rendre();});
+  document.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>formulaire(+b.dataset.e));
+  const n = sale() ? diff() : 0;
+  $("etat").textContent = n ? `${n} modification${n>1?"s":""} à enregistrer` : "Aucune modification";
+  $("b-save").disabled = !n;
+  // listes de suggestions
+  const uniq=a=>[...new Set(a)].sort((x,y)=>x.localeCompare(y,"fr"));
+  $("l-comp").innerHTML=uniq(L.map(p=>p[2])).map(v=>`<option value="${esc(v)}">`).join("");
+  $("l-eq").innerHTML=uniq(L.flatMap(p=>[p[3],p[4]])).map(v=>`<option value="${esc(v)}">`).join("");
+  $("l-pari").innerHTML=uniq(L.map(p=>p[5].replace(/(Victoire|Buteur :|Joueur décisif :) .*/,"$1 "))).map(v=>`<option value="${esc(v)}">`).join("");
+}
+function diff(){const a=JSON.parse(ORIG).map(p=>JSON.stringify(p)), b=L.map(p=>JSON.stringify(p));
+  return Math.max(b.filter(x=>!a.includes(x)).length, a.filter(x=>!b.includes(x)).length);}
+document.querySelectorAll("#f-vue button").forEach(b=>b.onclick=()=>{vue=b.dataset.k;
+  document.querySelectorAll("#f-vue button").forEach(x=>x.setAttribute("aria-pressed",x===b)); rendre();});
+
+/* ---------- formulaire ---------- */
+const setSeg=(id,k)=>document.querySelectorAll(`#${id} button`).forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===k));
+const getSeg=id=>{const b=document.querySelector(`#${id} button[aria-pressed="true"]`);return b?b.dataset.k:null;};
+["f-sp","f-res"].forEach(id=>document.querySelectorAll(`#${id} button`).forEach(b=>b.onclick=()=>setSeg(id,b.dataset.k)));
+document.querySelectorAll(".vite button").forEach(b=>b.onclick=()=>$("f-mise").value=b.dataset.m);
+function formulaire(i){
+  ajout = i===undefined; edit = ajout?null:i;
+  const now=new Date(); now.setMinutes(0,0,0); now.setHours(now.getHours()+1);
+  const loc=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}T${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+  const p = ajout ? [loc(now),"f","","","","",null,3,"m","a"] : L[i];
+  $("f-titre").textContent = ajout?"Ajouter un pari":"Modifier le pari";
+  $("f-date").value=p[0]; setSeg("f-sp",p[1]); $("f-comp").value=p[2]; $("f-dom").value=p[3]; $("f-ext").value=p[4];
+  $("f-pari").value=p[5]; $("f-cote").value=p[6]==null?"":String(p[6]).replace(".",","); $("f-mise").value=String(p[7]).replace(".",","); setSeg("f-res",p[9]);
+  $("f-suppr").hidden=ajout; $("f-err").textContent=""; $("voile").hidden=false;
+  setTimeout(()=>(ajout?$("f-comp"):$("f-pari")).focus(),50);
+}
+function fermer(){$("voile").hidden=true;}
+$("b-add").onclick=()=>formulaire();
+$("f-annul").onclick=fermer;
+$("voile").onclick=e=>{if(e.target===$("voile"))fermer();};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")fermer();});
+$("f-ok").onclick=()=>{
+  const v=id=>$(id).value.trim(), cote=parseFloat(v("f-cote").replace(",",".")), mise=parseFloat(v("f-mise").replace(",","."));
+  const err = !v("f-date")?"Indique la date et l'heure.":!v("f-dom")||!v("f-ext")?"Indique les deux équipes ou joueurs.":!v("f-pari")?"Indique le pari.":
+              !(cote>1)?"La cote doit être supérieure à 1.":!(mise>0)?"Indique la mise en %.":"";
+  if(err){$("f-err").textContent=err;return;}
+  const niv = ajout ? "m" : L[edit][8];
+  const p=[v("f-date").slice(0,16),getSeg("f-sp")||"f",v("f-comp")||"Autre",v("f-dom"),v("f-ext"),v("f-pari"),Math.round(cote*100)/100,mise,niv,getSeg("f-res")||"a"];
+  if(!ajout && L[edit].length>10) p.push(...L[edit].slice(10));
+  if(ajout) L.push(p); else L[edit]=p;
+  tri(); fermer(); rendre(); toast(ajout?"Pari ajouté. Pense à enregistrer.":"Pari modifié. Pense à enregistrer.");
+};
+$("f-suppr").onclick=()=>{ if(!confirm("Supprimer ce pari ?"))return; L.splice(edit,1); fermer(); rendre(); toast("Pari supprimé. Pense à enregistrer."); };
+
+/* ---------- enregistrement ---------- */
+$("b-save").onclick = async()=>{
+  const btn=$("b-save"); btn.disabled=true; btn.textContent="Envoi…";
+  const d=new Date(), maj=`${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()} à ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+  try{
+    const r = await fetch(`${API}/contents/${DEPOT.chemin}`,{method:"PUT",headers:{...hdr(),"Content-Type":"application/json"},
+      body:JSON.stringify({message:`Résultats mis à jour le ${maj}`,content:b64e(serial(maj,L)),sha:SHA,branch:DEPOT.branche})});
+    if(r.status===409||r.status===422) throw new Error("Le fichier a changé ailleurs entre-temps. Recharge la page puis refais tes modifications.");
+    if(!r.ok) throw new Error("GitHub a refusé l'enregistrement ("+r.status+").");
+    const j=await r.json(); SHA=j.content.sha; MAJ=maj; ORIG=JSON.stringify(L);
+    rendre(); toast("Enregistré ✓ Le site se met à jour d'ici une minute.",4500);
+  }catch(e){ toast(e.message,6000); btn.disabled=false; }
+  btn.textContent="Enregistrer";
+};
+window.addEventListener("beforeunload",e=>{if(sale()){e.preventDefault();e.returnValue="";}});
+
+/* ---------- démarrage ---------- */
+(async()=>{
+  let t=null; try{t=localStorage.getItem(CLE)}catch(e){}
+  if(t){ try{await entrer(t);return;}catch(e){ $("login-err").textContent=e.message; } }
+  $("v-login").hidden=false;
+})();
+</script>
+</body>
+</html>
