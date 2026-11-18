@@ -1,5 +1,5 @@
 {
-"maj": "17/11/2026 à 22:47",
+"maj": "18/11/2026 à 22:51",
 "paris": [
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
@@ -23,6 +23,8 @@
 ["2026-11-17T23:00", "f", "Ligue des nations", "Danemark", "Norvège", "LDEM", 1.35, 5, "m", "g"],
 ["2026-11-17T23:00", "f", "Ligue des nations", "Pologne", "Suède", "Suède ou nul", 1.5, 5, "m", "g"],
 ["2026-11-17T23:00", "f", "Ligue des nations", "Danemark", "Norvège", "Norvège ou nul", 1.45, 5, "m", "g"],
-["2026-11-17T23:00", "f", "Ligue des nations", "Irlande", "Kosovo", "Live Moylan décisif", 2.25, 1, "m", "g"]
+["2026-11-17T23:00", "f", "Ligue des nations", "Irlande", "Kosovo", "Live Moylan décisif", 2.25, 1, "m", "g"],
+["2026-11-18T14:00", "t", "Atp Finals", "Alcaraz", "Medvedev", "Alcaraz Vainqueur", 1.25, 5, "m", "g"],
+["2026-11-18T20:30", "t", "Atp Finals", "Cobolli", "Tiafoe", "Cobolli Vainqueur", 2.1, 5, "m", "p"]
 ]
 }
