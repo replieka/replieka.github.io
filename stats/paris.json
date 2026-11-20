@@ -1,5 +1,5 @@
 {
-"maj": "20/11/2026 à 22:41",
+"maj": "20/11/2026 à 23:57",
 "paris": [
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
@@ -33,6 +33,8 @@
 ["2026-11-20T23:00", "f", "MONTANTE 1", "Troyes", "Le Havre", "Troyes vainqueur remboursé si nul", 1.5, 10, "m", "g"],
 ["2026-11-20T23:00", "f", "Atp Finals", "Medvedev", "Tiafoe", "Tiafoe gagne au moins 1 set", 1.58, 5, "m", "p"],
 ["2026-11-20T23:00", "f", "Laliga", "Athletico Bilbao", "Espanyol", "Bilbao Vainqueur", 1.4, 5, "m", "p"],
-["2026-11-20T23:00", "f", "Primera A", "Interdependiente M.", "Santa Fe", "Double chance buteur - H. Rodallega ou F. Fagundez", 1.96, 5, "m", "a"]
+["2026-11-20T23:00", "f", "Primera A", "Interdependiente M.", "Santa Fe", "Double chance buteur - H. Rodallega ou F. Fagundez", 1.96, 5, "m", "a"],
+["2026-11-20T23:00", "f", "Coupe du Portugal", "Fc Porto", "Uniao SC", "Live Borja Sainz Buteur", 4, 3, "m", "a"],
+["2026-11-20T23:00", "f", "Coupe du Portugal", "Fc Porto", "Uniao SC", "Fc Porto Vainqueur prolongations", 1.56, 5, "m", "a"]
 ]
 }
