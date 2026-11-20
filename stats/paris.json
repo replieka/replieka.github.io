@@ -1,5 +1,5 @@
 {
-"maj": "20/11/2026 à 22:26",
+"maj": "20/11/2026 à 22:41",
 "paris": [
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
@@ -30,9 +30,9 @@
 ["2026-11-18T23:00", "f", "Serie A brésil", "Flamengo", "Athletico P.", "Samuel Lino Buteur", 2.35, 3, "m", "p"],
 ["2026-11-18T23:00", "f", "Serie A brésil", "Cruzeiro", "Palmeiras", "Kaio Jorge", 2.2, 3, "m", "p"],
 ["2026-11-19T23:00", "t", "Atp Finals", "Zverev", "Fils", "Fils gagne 1 set", 1.65, 5, "m", "p"],
-["2026-11-20T23:00", "f", "MONTANTE 1", "Troyes", "Le Havre", "Troyes vainqueur remboursé si nul", 1.5, 10, "m", "a"],
+["2026-11-20T23:00", "f", "MONTANTE 1", "Troyes", "Le Havre", "Troyes vainqueur remboursé si nul", 1.5, 10, "m", "g"],
 ["2026-11-20T23:00", "f", "Atp Finals", "Medvedev", "Tiafoe", "Tiafoe gagne au moins 1 set", 1.58, 5, "m", "p"],
-["2026-11-20T23:00", "f", "Laliga", "Athletico Bilbao", "Espanyol", "Bilbao Vainqueur", 1.4, 5, "m", "a"],
+["2026-11-20T23:00", "f", "Laliga", "Athletico Bilbao", "Espanyol", "Bilbao Vainqueur", 1.4, 5, "m", "p"],
 ["2026-11-20T23:00", "f", "Primera A", "Interdependiente M.", "Santa Fe", "Double chance buteur - H. Rodallega ou F. Fagundez", 1.96, 5, "m", "a"]
 ]
 }
