@@ -1,5 +1,5 @@
 {
-"maj": "20/11/2026 à 23:57",
+"maj": "21/11/2026 à 17:31",
 "paris": [
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
@@ -35,6 +35,13 @@
 ["2026-11-20T23:00", "f", "Laliga", "Athletico Bilbao", "Espanyol", "Bilbao Vainqueur", 1.4, 5, "m", "p"],
 ["2026-11-20T23:00", "f", "Primera A", "Interdependiente M.", "Santa Fe", "Double chance buteur - H. Rodallega ou F. Fagundez", 1.96, 5, "m", "a"],
 ["2026-11-20T23:00", "f", "Coupe du Portugal", "Fc Porto", "Uniao SC", "Live Borja Sainz Buteur", 4, 3, "m", "a"],
-["2026-11-20T23:00", "f", "Coupe du Portugal", "Fc Porto", "Uniao SC", "Fc Porto Vainqueur prolongations", 1.56, 5, "m", "a"]
+["2026-11-20T23:00", "f", "Coupe du Portugal", "Fc Porto", "Uniao SC", "Fc Porto Vainqueur prolongations", 1.56, 5, "m", "a"],
+["2026-11-21T14:00", "t", "Atp Finals", "Alcaraz", "Shelton", "Live Alcaraz Vainqueur", 1.52, 5, "m", "g"],
+["2026-11-21T15:00", "f", "MONTANTE 2 - Serie A", "Lazio", "Lecce", "Lazio Vainqueur", 1.44, 15, "m", "g"],
+["2026-11-21T15:30", "f", "Bundesliga", "Gladbach", "Dortmund", "Dortmund Vainqueur", 1.53, 5, "m", "g"],
+["2026-11-21T15:30", "f", "Bundesliga", "Union Berlin", "Leipzig", "Leipzig Vainqueur", 1.43, 3, "m", "g"],
+["2026-11-21T16:00", "f", "Premier League", "Aston Villa", "Sunderland", "Aston Villa Vainqueur", 1.71, 5, "m", "a"],
+["2026-11-21T16:00", "f", "Premier League", "Bournemouth", "Nottingham", "Evanilson Buteur", 2.25, 3, "m", "g"],
+["2026-11-21T20:45", "f", "Ligue 1", "Strasbourg", "Brest", "Plus de 2,5 buts", 1.73, 3, "m", "a"]
 ]
 }
