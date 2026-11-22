@@ -1,5 +1,5 @@
 {
-"maj": "22/11/2026 à 17:02",
+"maj": "22/11/2026 à 20:25",
 "paris": [
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
@@ -42,11 +42,13 @@
 ["2026-11-21T20:45", "f", "Ligue 1", "Strasbourg", "Brest", "Plus de 2,5 buts", 1.73, 3, "m", "p"],
 ["2026-11-22T15:00", "f", "MONTANTE 1", "Bologna", "Udinese", "Bologna Vainqueur", 1.6, 21.6, "m", "p"],
 ["2026-11-22T15:00", "f", "Premier League", "Hull", "Brighton", "Brighton Vainqueur", 1.42, 3, "m", "p"],
-["2026-11-22T16:15", "f", "Laliga", "Racing Santander", "Real Sociedad", "Real Sociedad Vainqueur", 1.88, 5, "m", "a"],
-["2026-11-22T16:15", "f", "Laliga", "Racing Santander", "Real Sociedad", "Orri Óskarsson Buteur", 2, 3, "m", "a"],
-["2026-11-22T17:30", "f", "Premier League", "Liverpool", "Man United", "Liverpool Vainqueur", 1.6, 5, "m", "a"],
-["2026-11-22T18:00", "f", "Serie A", "Milan", "Frosinone", "Milan Vainqueur", 1.48, 3, "m", "a"],
-["2026-11-22T18:00", "t", "Atp Finals", "Alcaraz", "Zverev", "Zverev gagne au moins un set", 1.52, 3, "m", "a"],
-["2026-11-22T21:00", "f", "Laliga", "Getafe", "Atlético", "Atlético Vainqueur", 1.45, 3, "m", "a"]
+["2026-11-22T16:15", "f", "Laliga", "Racing Santander", "Real Sociedad", "Real Sociedad Vainqueur", 1.88, 5, "m", "p"],
+["2026-11-22T16:15", "f", "Laliga", "Racing Santander", "Real Sociedad", "Orri Óskarsson Buteur", 2, 3, "m", "p"],
+["2026-11-22T17:30", "f", "Premier League", "Liverpool", "Man United", "Liverpool Vainqueur", 1.6, 5, "m", "g"],
+["2026-11-22T18:00", "f", "Serie A", "Milan", "Frosinone", "Milan Vainqueur", 1.48, 3, "m", "g"],
+["2026-11-22T18:00", "t", "Atp Finals", "Alcaraz", "Zverev", "Zverev gagne au moins un set", 1.52, 3, "m", "p"],
+["2026-11-22T21:00", "f", "Laliga", "Getafe", "Atlético", "Atlético Vainqueur", 1.45, 3, "m", "a"],
+["2026-11-22T21:00", "f", "Ligue 1", "Lorient", "Rennes", "Live Lorient ou nul", 3.5, 5, "m", "g"],
+["2026-11-22T21:00", "f", "Premier League", "Liverpool", "Man United", "Live Isak buteur", 1.58, 3, "m", "p"]
 ]
 }
