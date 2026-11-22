@@ -1,5 +1,5 @@
 {
-"maj": "21/11/2026 à 23:52",
+"maj": "22/11/2026 à 01:17",
 "paris": [
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
@@ -39,6 +39,14 @@
 ["2026-11-21T15:30", "f", "Bundesliga", "Union Berlin", "Leipzig", "Leipzig Vainqueur", 1.43, 3, "m", "g"],
 ["2026-11-21T16:00", "f", "Premier League", "Aston Villa", "Sunderland", "Aston Villa Vainqueur", 1.71, 5, "m", "p"],
 ["2026-11-21T16:00", "f", "Premier League", "Bournemouth", "Nottingham", "Evanilson Buteur", 2.25, 3, "m", "g"],
-["2026-11-21T20:45", "f", "Ligue 1", "Strasbourg", "Brest", "Plus de 2,5 buts", 1.73, 3, "m", "p"]
+["2026-11-21T20:45", "f", "Ligue 1", "Strasbourg", "Brest", "Plus de 2,5 buts", 1.73, 3, "m", "p"],
+["2026-11-22T15:00", "f", "MONTANTE 1", "Bologna", "Udinese", "Bologna Vainqueur", 1.6, 21.6, "m", "a"],
+["2026-11-22T15:00", "f", "Premier League", "Hull", "Brighton", "Brighton Vainqueur", 1.42, 3, "m", "a"],
+["2026-11-22T16:15", "f", "Laliga", "Racing Santander", "Real Sociedad", "Real Sociedad Vainqueur", 1.88, 5, "m", "a"],
+["2026-11-22T16:15", "f", "Laliga", "Racing Santander", "Real Sociedad", "Orri Óskarsson Buteur", 2, 3, "m", "a"],
+["2026-11-22T17:30", "f", "Premier League", "Liverpool", "Man United", "Liverpool Vainqueur", 1.6, 5, "m", "a"],
+["2026-11-22T18:00", "f", "Serie A", "Milan", "Frosinone", "Milan Vainqueur", 1.48, 3, "m", "a"],
+["2026-11-22T18:00", "t", "Atp Finals", "Alcaraz", "Zverev", "Zverev gagne au moins un set", 1.52, 3, "m", "a"],
+["2026-11-22T21:00", "f", "Laliga", "Getafe", "Atlético", "Atlético Vainqueur", 1.45, 3, "m", "a"]
 ]
 }
