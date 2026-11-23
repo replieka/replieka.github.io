@@ -1,5 +1,5 @@
 {
-"maj": "23/11/2026 à 22:38",
+"maj": "23/11/2026 à 22:39",
 "paris": [
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
@@ -50,10 +50,10 @@
 ["2026-11-22T21:00", "f", "Laliga", "Getafe", "Atlético", "Atlético Vainqueur", 1.45, 3, "m", "g"],
 ["2026-11-22T21:00", "f", "Ligue 1", "Lorient", "Rennes", "Live Lorient ou nul", 3.5, 5, "m", "g"],
 ["2026-11-22T21:00", "f", "Premier League", "Liverpool", "Man United", "Live Isak buteur", 1.58, 3, "m", "p"],
-["2026-11-23T18:00", "f", "Süper Lig", "Başakşehir", "Çorum", "Shomurodov buteur", 2, 1, "m", "a"],
-["2026-11-23T20:45", "f", "Serie A", "Monza", "Fiorentina", "Les deux équipes marquent", 1.42, 3, "m", "a"],
-["2026-11-23T20:45", "f", "Serie A", "Monza", "Fiorentina", "Duo buteurs Pellegrino + Varela, plus de 1,5", 3.5, 1, "m", "a"],
-["2026-11-23T21:00", "f", "Laliga", "Levante", "Elche", "Les deux équipes marquent", 1.46, 3, "m", "a"],
-["2026-11-23T21:00", "f", "Premier League", "Brentford", "Everton", "Moins de 2,5 buts", 1.8, 3, "m", "a"]
+["2026-11-23T18:00", "f", "Süper Lig", "Başakşehir", "Çorum", "Shomurodov buteur", 2, 5, "m", "g"],
+["2026-11-23T20:45", "f", "Serie A", "Monza", "Fiorentina", "Les deux équipes marquent", 1.42, 5, "m", "p"],
+["2026-11-23T20:45", "f", "Serie A", "Monza", "Fiorentina", "Duo buteurs Pellegrino + Varela, plus de 1,5", 3.5, 5, "m", "g"],
+["2026-11-23T21:00", "f", "Laliga", "Levante", "Elche", "Les deux équipes marquent", 1.46, 5, "m", "g"],
+["2026-11-23T21:00", "f", "Premier League", "Brentford", "Everton", "Moins de 2,5 buts", 1.8, 5, "m", "p"]
 ]
 }
