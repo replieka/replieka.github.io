@@ -1,5 +1,5 @@
 {
-"maj": "23/11/2026 à 23:38",
+"maj": "24/11/2026 à 11:32",
 "paris": [
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Italie", 3, 5, "m", "p"],
 ["2026-11-15T13:00", "f", "Ligue des nations", "Belgique", "Italie", "Pio Esposito Décisif", 2.25, 5, "m", "g"],
@@ -51,6 +51,10 @@
 ["2026-11-23T20:45", "f", "Serie A", "Monza", "Fiorentina", "Les deux équipes marquent", 1.42, 5, "m", "p"],
 ["2026-11-23T20:45", "f", "Serie A", "Monza", "Fiorentina", "Duo buteurs Pellegrino + Varela, plus de 1,5", 3.5, 5, "m", "g"],
 ["2026-11-23T21:00", "f", "Laliga", "Levante", "Elche", "Les deux équipes marquent", 1.46, 5, "m", "g"],
-["2026-11-23T21:00", "f", "Premier League", "Brentford", "Everton", "Moins de 2,5 buts", 1.8, 5, "m", "p"]
+["2026-11-23T21:00", "f", "Premier League", "Brentford", "Everton", "Moins de 2,5 buts", 1.8, 5, "m", "p"],
+["2026-11-24T18:45", "f", "Ligue des Champions", "Galatasaray", "Aston Villa", "Galatasaray plus de 1,5 but", 1.84, 5, "m", "a"],
+["2026-11-24T21:00", "f", "Ligue des Champions", "Como", "AEK Athènes", "Nico Paz buteur", 2, 5, "m", "a"],
+["2026-11-24T21:00", "f", "Ligue des Champions", "Leipzig", "Lens", "Gruda au moins 1 passe décisive", 3, 5, "m", "a"],
+["2026-11-24T21:00", "f", "Ligue des Champions", "Feyenoord", "Porto", "Borja Sainz buteur ou passeur", 2.2, 5, "m", "a"]
 ]
 }
